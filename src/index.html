@@ -102,7 +102,7 @@ body{
 </div>
 </form>
 
-
+<p id="result">asd</p>
 <!---Riceve variabili-->
 <script>
   const electron = require('electron');
@@ -111,6 +111,7 @@ body{
   ipcRenderer.on('X1', (event, value) => {
     console.log('test');
     console.log('1 :' + value);
+    document.querySelector('#result').innerHTML = value;
   });
   ipcRenderer.on('X2',(event,data) => {
     console.log('X2 :' + data);

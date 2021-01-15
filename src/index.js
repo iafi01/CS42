@@ -51,7 +51,6 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
   mainWindow.webContents.on('did-finish-load', function () {
    console.log('X1 :' + person.getx.call(x1));
    var tmp = person.getx.call(x1);

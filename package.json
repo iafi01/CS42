@@ -1,6 +1,6 @@
 {
-  "name": "cool-app",
-  "productName": "cool-app",
+  "name": "newapp",
+  "productName": "newapp",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": "src/index.js",
@@ -24,7 +24,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "cool_app"
+            "name": "newapp"
           }
         },
         {
@@ -45,8 +45,7 @@
     }
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0",
-    "os-utils": "0.0.14"
+    "electron-squirrel-startup": "^1.0.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",
