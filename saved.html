@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <h1>💖 Hello World!</h1>
+    <p>Welcome to your Electron application.</p>
+    <script>
+      const electron = require('electron');
+      const { ipcRenderer } = electron;
+      console.log('out');
+      ipcRenderer.on('X1', (event, value) => {
+        console.log('test');
+        console.log('1 :' + value);
+      });
+      ipcRenderer.on('X2',(event,data) => {
+        console.log('X2 :' + data);
+      });
+      ipcRenderer.on('X3',(event,data) => {
+        console.log('X3 :' + data);
+      });
+    </script>
+  </body>
+</html>
