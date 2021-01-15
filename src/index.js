@@ -1,10 +1,12 @@
 const electron = require('electron');
 const { app, BrowserWindow, ipcMain } = electron;
 const path = require('path');
-
+var {execSync} = require("child_process");
+/*
 const { exec } = require("child_process");
+const { stdout } = require('process');
 
-exec("pwd", (error, stdout, stderr) => {
+const std = exec("pwd", (error, stdout, stderr) => {
     if (error) {
         console.log(`error: ${error.message}`);
         return;
@@ -13,22 +15,46 @@ exec("pwd", (error, stdout, stderr) => {
         console.log(`stderr: ${stderr}`);
         return;
     }
-    console.log(`stdout: ${stdout}`);
+    return(stdout);
 });
-
+*/
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
 }
 
+function exe(cwd, command){
+  return execSync(command, { cwd, encoding: "utf8"});
+}
+var sticazz = "pwd";
+
+function esegui(cwd){
+  return exe(cwd, sticazz);
+}
+
+/*
 var person = {
   getx: function(v) {
-    //return this.firstName + " " + this.lastName;
-    return this.xvalue;
+    let d;
+    exec("pwd", (error, stdout, stderr) => {
+      if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+      }
+      if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+      }
+      console.log(`stdout: ${stdout}`);
+      var newvalue = stdout;
+      console.log("stdout2: " + newvalue);
+      return newvalue;
+  });
+    return d;
   }
 }
 var x1 = {
-  xvalue: 0,
+  xvalue: 42,
 }
 var x2 = {
   xvalue: 2,
@@ -36,12 +62,14 @@ var x2 = {
 var x3 = {
   xvalue: 15000,
 }
+*/
+let mainWindow;
 
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+  mainWindow = new BrowserWindow({
+    width: 1800,
+    height: 1600,
     webPreferences: {
       nodeIntegration : true
     }
@@ -51,17 +79,29 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools.
+  mainWindow.webContents.openDevTools()
+
   mainWindow.webContents.on('did-finish-load', function () {
-   console.log('X1 :' + person.getx.call(x1));
-   var tmp = person.getx.call(x1);
-   console.log('test' + tmp);
-   mainWindow.webContents.send('X1', tmp);
-   console.log('X2 :' + person.getx.call(x2));
-   mainWindow.webContents.send('X2',person.getx.call(x2));
-   console.log('X3 :' + person.getx.call(x3));
-   mainWindow.webContents.send('X3',person.getx.call(x3));
+   //console.log('X1 :' + person.getx.call(x1));
+  // var tmp = person.getx.call(x1);
+  // console.log('test' + tmp);
+   //mainWindow.webContents.send('X1', tmp);
+   //console.log('X2 :' + person.getx.call(x2));
+  // mainWindow.webContents.send('X2',person.getx.call(x2));
+  // console.log('X3 :' + person.getx.call(x3));
+   //mainWindow.webContents.send('X3',person.getx.call(x3));
   });
 };
+
+ipcMain.on('click', () => {
+  //mainWindow.webContents.send('X1',person.getx.call(x1));
+  //mainWindow.webContents.send('X2',person.getx.call(x2));
+  //mainWindow.webContents.send('X3',person.getx.call(x3));
+  //console.log("call: "+ run_shell_command("pwd"));
+  sticazz = "ls";
+  console.log("nuovotest: " + esegui());
+  mainWindow.webContents.send('std',esegui());
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
