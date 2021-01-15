@@ -102,12 +102,28 @@ body{
 </div>
 </form>
 
-<p id="result">asd</p>
+<p id="r0">0</p>
+<p id="r1">1</p>
+<p id="r2">2</p>
+<p id="r3">3</p>
+<p id="r4">4</p>
+<p id="r5">5</p>
+
 <button onclick="myFunction()">Click me</button>
 <!---Riceve variabili-->
 <script>
   function myFunction() {
-
+    var max = 3;
+  for (let i = 0; i <  max; i++) {
+    var s = "#r" + i;
+    document.querySelector(s).innerHTML = '';
+  }/*
+    document.querySelector('#r' + 0).innerHTML = '';
+    document.querySelector('#r' + 1).innerHTML = '';
+    document.querySelector('#r' + 2).innerHTML = '';
+    document.querySelector('#r' + 3).innerHTML = '';
+    document.querySelector('#r' + 4).innerHTML = '';
+    document.querySelector('#r' + 5).innerHTML = '';*/
   ipcRenderer.send('click');
 }
 </script>
@@ -115,21 +131,23 @@ body{
 <script>
   const electron = require('electron');
   const { ipcRenderer } = electron;
-  ipcRenderer.on('X1', (event, value) => {
-    console.log('test');
-    console.log('1 :' + value);
-    document.querySelector('#result').innerHTML = value;
+  ipcRenderer.on('0', (event, value) => {
+    document.querySelector('#a').innerHTML = value;
   });
-  ipcRenderer.on('X2',(event,data) => {
-    console.log('X2 :' + data);
+  ipcRenderer.on('1', (event, value) => {
+    document.querySelector('#b').innerHTML = value;
   });
-  ipcRenderer.on('X3',(event,data) => {
-    console.log('X3 :' + data);
+  ipcRenderer.on('2', (event, value) => {
+    document.querySelector('#c').innerHTML = value;
   });
-  ipcRenderer.on('std',(event,data) => {
-    console.log(data);
-
-    document.querySelector('#result').innerHTML = data;
+  ipcRenderer.on('3', (event, value) => {
+    document.querySelector('#d').innerHTML = value;
+  });
+  ipcRenderer.on('4', (event, value) => {
+    document.querySelector('#e').innerHTML = value;
+  });
+  ipcRenderer.on('5', (event, value) => {
+    document.querySelector('#f').innerHTML = value;
   });
 </script>
 

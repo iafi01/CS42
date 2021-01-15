@@ -2,22 +2,7 @@ const electron = require('electron');
 const { app, BrowserWindow, ipcMain } = electron;
 const path = require('path');
 var {execSync} = require("child_process");
-/*
-const { exec } = require("child_process");
-const { stdout } = require('process');
 
-const std = exec("pwd", (error, stdout, stderr) => {
-    if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-    }
-    return(stdout);
-});
-*/
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
@@ -26,43 +11,12 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 function exe(cwd, command){
   return execSync(command, { cwd, encoding: "utf8"});
 }
-var sticazz = "";
+var comm = "";//command to be  executed
 
 function esegui(cwd){
-  return exe(cwd, sticazz);
+  return exe(cwd, comm);
 }
 
-/*
-var person = {
-  getx: function(v) {
-    let d;
-    exec("pwd", (error, stdout, stderr) => {
-      if (error) {
-          console.log(`error: ${error.message}`);
-          return;
-      }
-      if (stderr) {
-          console.log(`stderr: ${stderr}`);
-          return;
-      }
-      console.log(`stdout: ${stdout}`);
-      var newvalue = stdout;
-      console.log("stdout2: " + newvalue);
-      return newvalue;
-  });
-    return d;
-  }
-}
-var x1 = {
-  xvalue: 42,
-}
-var x2 = {
-  xvalue: 2,
-}
-var x3 = {
-  xvalue: 15000,
-}
-*/
 let mainWindow;
 
 const createWindow = () => {
@@ -81,30 +35,30 @@ const createWindow = () => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
-  mainWindow.webContents.on('did-finish-load', function () {
-   //console.log('X1 :' + person.getx.call(x1));
-  // var tmp = person.getx.call(x1);
-  // console.log('test' + tmp);
-   //mainWindow.webContents.send('X1', tmp);
-   //console.log('X2 :' + person.getx.call(x2));
-  // mainWindow.webContents.send('X2',person.getx.call(x2));
-  // console.log('X3 :' + person.getx.call(x3));
-   //mainWindow.webContents.send('X3',person.getx.call(x3));
-  });
 };
 
 function nl2br(str){
   return str.replace(/(?:\r\n|\r|\n)/g, '<br>');
- }
+}
+
+function template(func_name){
+  comm = "bash " + path.join(__dirname, ('ft_' + func_name + '_bot.sh'));
+  var stringa = esegui();
+  stringa = stringa.split("\n");//stringa.lenght da il numero di elementi
+  var arr = [];
+  for (let index = 0; index < (stringa.length - 3) / 2; index++) {
+    arr.push(stringa[index].localeCompare(stringa[(stringa.length -3) / 2 + index]));
+  }
+  for (let index = 0; index < arr.length; index++) {
+    mainWindow.webContents.send('' + index,arr[index]);
+  }
+  arr = [];
+}
 
 ipcMain.on('click', () => {
-  //mainWindow.webContents.send('X1',person.getx.call(x1));
-  //mainWindow.webContents.send('X2',person.getx.call(x2));
-  //mainWindow.webContents.send('X3',person.getx.call(x3));
-  //console.log("call: "+ run_shell_command("pwd"));
-  sticazz = "bash " + path.join(__dirname, 'MiniBot.sh');
-  //console.log("nuovotest: " + esegui());
-  mainWindow.webContents.send('std',nl2br(esegui()));
+  
+  template('Mini');// da mandare in loop con i nomi dei bot (in un array const?)
+  
 });
 
 // This method will be called when Electron has finished
