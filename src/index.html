@@ -127,7 +127,8 @@ body{
     console.log('X3 :' + data);
   });
   ipcRenderer.on('std',(event,data) => {
-    console.log('stdout :' + data);
+    console.log(data);
+
     document.querySelector('#result').innerHTML = data;
   });
 </script>

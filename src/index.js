@@ -26,7 +26,7 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 function exe(cwd, command){
   return execSync(command, { cwd, encoding: "utf8"});
 }
-var sticazz = "pwd";
+var sticazz = "";
 
 function esegui(cwd){
   return exe(cwd, sticazz);
@@ -93,14 +93,18 @@ const createWindow = () => {
   });
 };
 
+function nl2br(str){
+  return str.replace(/(?:\r\n|\r|\n)/g, '<br>');
+ }
+
 ipcMain.on('click', () => {
   //mainWindow.webContents.send('X1',person.getx.call(x1));
   //mainWindow.webContents.send('X2',person.getx.call(x2));
   //mainWindow.webContents.send('X3',person.getx.call(x3));
   //console.log("call: "+ run_shell_command("pwd"));
-  sticazz = "ls";
-  console.log("nuovotest: " + esegui());
-  mainWindow.webContents.send('std',esegui());
+  sticazz = "bash " + path.join(__dirname, 'MiniBot.sh');
+  //console.log("nuovotest: " + esegui());
+  mainWindow.webContents.send('std',nl2br(esegui()));
 });
 
 // This method will be called when Electron has finished
