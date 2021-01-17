@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CS42</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>/*style and css stuff*/
+body {font-family: Arial, Helvetica, sans-serif;}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+body{
+  background-attachment: fixed;
+  background-image: url("sp.jpg");
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+.container{
+  background-color: white;
+}
+
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+p{
+  margin: 0;
+}
+
+
+</style>
+</head>
+<body>
+
+<form action="/action.html" method="post">
+<div style="border:0px;margin-left: 20%;margin-right: 20%;margin-top:10%;
+">
+  <div style="border-radius:10px;" class="container"><!--textbox per inserire link-->
+    <label for="uname"><b>Link repository Git!</b></label>
+    <input type="text" placeholder="Link Repo Git" name="git" required>
+ 
+    <button type="submit">Cerca</button>
+  </div>
+
+  <div class="container" style="background-color:#f1f1f1; margin-top:-15px;border-radius:10px;"><!--cancel button to empty out the git link textbox-->
+    <button onclick="reset()" type="button" class="cancelbtn">Cancella</button>
+  </div>
+<br><br><br>
+<div class="container" id="box" style="background-color:#f1f1f1; margin-top:-10px;border-radius:6x;"><!--cancel button to empty out the git link textbox-->
+    
+  </div>
+</div>
+</form>
+
+<script>
+  function create_ps(){
+    const not_memset = 3;
+    const not_other = 6;
+    let not_total = 0;
+    for (let i = 0; i < not_memset; i++){
+      var newelem = document.createElement("p");
+      document.querySelector("#box").appendChild(newelem);
+      newelem.innerHTML = "<p class='popup' id='p"+i+"'></p>"
+    }
+    not_total = not_total + not_memset;
+    for (let i = not_total; i < not_other + not_total; i++){
+      var newelem = document.createElement("p");
+      document.querySelector("#box").appendChild(newelem);
+      newelem.innerHTML = "<p class='popup' id='p"+i+"'></p>"
+    }
+    not_total = not_total + not_other;
+  }
+</script>
+
+<!--<div id="d0">
+<p id="n0" class="popup"></p>  
+</div>
+<div id="d1">
+  <p id="n1" class="popup"></p>
+  </div>-->
+
+<button onclick="myFunction()">Click me</button>
+<!---Riceve variabili-->
+<script>
+  function myFunction() {
+    var max = 9;
+    create_ps();
+    document.querySelector("#d0").innerHTML = 'ft_memset';//todo: mettere nomi funzioni in un array
+    document.querySelector("#d1").innerHTML = 'ft_add';
+    for (let i = 0; i <  max; i++) {
+      var s = "#p" + i;
+      document.querySelector(s).innerHTML = '';
+    }
+    ipcRenderer.send('click');
+}
+</script>
+
+<script>
+  // When the user clicks on div, open the popup
+  function ft_popup(param) {
+    var popup = document.getElementById("pop"+param);
+    popup.classList.toggle("show");
+  }
+  </script>
+
+<script>
+  const electron = require('electron');
+  const { ipcRenderer } = electron;
+  var received = 0;
+  ipcRenderer.on('i', (event, value) => {
+    received = value;
+      ipcRenderer.on(received, (event, value) => {
+        if (value == 0) {
+          var hvr = "ZERO";
+          var q = "#p" + received;
+          var s = "#s" + received;                                                                /*onclick=\"testfun("+ received +")\"*/
+          document.querySelector(q).innerHTML = "<span id = \"s"+received+"\" title = " + hvr + ">[OK]</span>";
+          document.querySelector(s).style.color = "rgb(0, 255, 0)";
+        }
+        else{
+          var hvr = "ONE";
+          var q = "#p" + received;
+          var s = "#s" + received;
+          document.querySelector(q).innerHTML = "<span id = \"s"+received+"\" title = " + hvr + 
+" onclick=\"ft_popup("+ received +")\">[KO]</span><span class=\"popuptext\" id=\"pop"+received+"\">POPTEST</span>";
+          document.querySelector(s).style.color = "rgb(255, 0, 0)";
+          ipcRenderer.on("err"+received, (event, value) => {
+            var p = "#pop" + received;
+            document.querySelector(p).innerHTML = ""+value;
+          });
+        }
+      });
+  });
+</script>
+
+<script>
+  function testfun(which) {
+    var s = "#s" + which;
+    if(document.querySelector(s).style.color == "rgb(255, 0, 0)"){
+      console.log("OK");
+      document.querySelector(s).style.color = "rgb(0, 255, 0)";
+    }
+    else if(document.querySelector(s).style.color == "rgb(0, 255, 0)"){
+      document.querySelector(s).style.color = "rgb(255, 0, 0)";
+    }
+    else if(document.querySelector(s).style.color == "rgb(255, 0, 255)"){
+      document.querySelector(s).style.color = "rgb(0, 0, 255)";
+    }
+    else{
+      document.querySelector(s).style.color = "rgb(255, 0, o)";
+    }
+    which = 0;
+     console.log("x" + document.querySelector(s).style.color);
+    
+}
+</script>
+
+<script>
+  function reset(){
+  let git= getElementByName('git').value="";
+  }
+</script>
+  </body>
+</html>
